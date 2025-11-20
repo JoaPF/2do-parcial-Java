@@ -15,7 +15,7 @@ public class GestorRobots {
     public List<Robot> obtenerTodos() { return inventario; }
 
     public void agregarRobot(Robot nuevoRobot) throws ExcepcionRobot {
-        // Validar unicidad
+
         boolean existe = inventario.stream()
                 .anyMatch(r -> r.getNumeroSerie().equals(nuevoRobot.getNumeroSerie()));
         
@@ -32,7 +32,6 @@ public class GestorRobots {
     }
 
     public void actualizarRobot(Robot robotOriginal, Robot robotModificado) throws ExcepcionRobot {
-        // Si cambia la serie, verificar colisión
         if (!robotOriginal.getNumeroSerie().equals(robotModificado.getNumeroSerie())) {
              boolean existe = inventario.stream()
                 .anyMatch(r -> r != robotOriginal && r.getNumeroSerie().equals(robotModificado.getNumeroSerie()));
@@ -61,4 +60,5 @@ public class GestorRobots {
     }
     
     public ServicioArchivo obtenerServicioArchivo() { return servicioArchivo; }
+
 }
