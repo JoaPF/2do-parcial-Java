@@ -38,11 +38,11 @@ public class ServicioArchivo {
 
         try {
             String contenido = Files.readString(rutaArchivo);
-            // Limpieza básica de corchetes
+            //corchetes
             contenido = contenido.replace("[", "").replace("]", "");
             if (contenido.isBlank()) return listaRetorno;
 
-            // Separar objetos
+            //separaro objetos
             String[] objetosRaw = contenido.split("},"); 
             
             for (String objTexto : objetosRaw) {
@@ -56,7 +56,6 @@ public class ServicioArchivo {
                     }
                 }
                 
-                // Reconstrucción de objetos usando los datos del mapa
                 String tipo = mapaDatos.get("tipo");
                 String nombre = mapaDatos.get("nombre");
                 int energia = Integer.parseInt(mapaDatos.get("energia"));
@@ -74,4 +73,5 @@ public class ServicioArchivo {
         }
         return listaRetorno;
     }
+
 }
