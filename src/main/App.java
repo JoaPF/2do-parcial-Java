@@ -20,7 +20,7 @@ public class App extends Application {
     private TableView<Robot> tablaRobots;
     private ObservableList<Robot> listaObservable;
 
-    // Controles del formulario
+    // controles del formulario
     private TextField campoNombre, campoEnergia, campoSerie, campoExtra;
     private ComboBox<String> comboTipo;
     private Label etiquetaExtra; 
@@ -37,21 +37,21 @@ public class App extends Application {
         BorderPane panelPrincipal = new BorderPane();
         panelPrincipal.setPadding(new Insets(15));
 
-        // --- TOP: Título ---
+        // titulo
         Label titulo = new Label("Sistema de Gestión de Robots - Lab. Ramírez");
         titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
         panelPrincipal.setTop(titulo);
 
-        // --- CENTER: Tabla ---
+        // tabla
         tablaRobots = crearTabla();
         tablaRobots.setItems(listaObservable);
         panelPrincipal.setCenter(tablaRobots);
 
-        // --- RIGHT: Formulario ---
+        // formulario
         VBox panelFormulario = crearFormulario();
         panelPrincipal.setRight(panelFormulario);
 
-        // --- BOTTOM: Botonera Extra ---
+        //botonera Extra
         HBox barraInferior = new HBox(10);
         barraInferior.setPadding(new Insets(10, 0, 0, 0));
         Button botonBajaEnergia = new Button("⚠️ Ver Robots Baja Energía");
@@ -65,7 +65,7 @@ public class App extends Application {
         escenarioPrincipal.setScene(escena);
         escenarioPrincipal.show();
         
-        // Listener para selección en tabla
+        //listener tabla
         tablaRobots.getSelectionModel().selectedItemProperty().addListener((obs, seleccionAnterior, seleccionNueva) -> {
             if (seleccionNueva != null) cargarRobotEnFormulario(seleccionNueva);
         });
@@ -84,7 +84,7 @@ public class App extends Application {
         colEnergia.setCellValueFactory(new PropertyValueFactory<>("nivelEnergia"));
 
         TableColumn<Robot, String> colTipo = new TableColumn<>("Tipo");
-        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo")); // Llama a obtenerTipo() si usas JavaFX beans o PropertyValueFactory busca "getTipo"
+        colTipo.setCellValueFactory(new PropertyValueFactory<>("tipo"));
         
         TableColumn<Robot, String> colDetalle = new TableColumn<>("Detalle");
         colDetalle.setCellValueFactory(new PropertyValueFactory<>("detalleEspecifico"));
@@ -114,7 +114,6 @@ public class App extends Application {
         etiquetaExtra = new Label("Cant. Tareas:");
         campoExtra = new TextField(); campoExtra.setPromptText("Cantidad de tareas");
 
-        // Cambio dinámico de etiqueta
         comboTipo.setOnAction(e -> {
             if (comboTipo.getValue().equals("Doméstico")) {
                 etiquetaExtra.setText("Cant. Tareas:");
@@ -154,8 +153,7 @@ public class App extends Application {
         return cajaVertical;
     }
 
-    // --- Acciones de Botones ---
-
+ 
     private void accionAgregar() {
         try {
             Robot nuevoRobot = construirRobotDesdeForm();
@@ -177,7 +175,7 @@ public class App extends Application {
         try {
             Robot modificado = construirRobotDesdeForm();
             
-            // Validación de consistencia de tipo
+          
             if (!modificado.obtenerTipo().equals(seleccionado.obtenerTipo())) {
                 throw new ExcepcionRobot("No se puede cambiar el tipo de robot una vez creado.");
             }
@@ -203,7 +201,7 @@ public class App extends Application {
         }
     }
 
-    // --- Ventana Secundaria (Baja Energía) ---
+    //ventana energia baja
     
     private void abrirVentanaBajaEnergia() {
         Stage ventanaSecundaria = new Stage();
@@ -241,13 +239,12 @@ public class App extends Application {
         ventanaSecundaria.show();
     }
 
-    // --- Utilidades ---
 
     private Robot construirRobotDesdeForm() throws ExcepcionRobot {
         try {
             String nombre = campoNombre.getText();
             String serie = campoSerie.getText();
-            // Validamos que no esté vacío antes de parsear para evitar error feo
+         
             if(campoEnergia.getText().isEmpty()) throw new NumberFormatException();
             int energia = Integer.parseInt(campoEnergia.getText());
             
@@ -269,10 +266,8 @@ public class App extends Application {
         campoNombre.setText(r.getNombre());
         campoSerie.setText(r.getNumeroSerie());
         campoEnergia.setText(String.valueOf(r.getNivelEnergia()));
-        // Para que el combo seleccione el valor correcto, debe coincidir exactamente con el String que agregamos al item
         comboTipo.setValue(r.obtenerTipo()); 
         
-        // Extraemos solo el número del detalle específico
         String extra = r.obtenerDetalleEspecifico().split(" ")[0]; 
         campoExtra.setText(extra);
     }
@@ -292,4 +287,5 @@ public class App extends Application {
         alerta.setContentText(mensaje);
         alerta.showAndWait();
     }
+
 }
